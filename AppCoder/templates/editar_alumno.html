@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}<h1 class="text-center"> Alumnos </h1>{% endblock %}
+
+{% load static %}
+
+{% block contenido %}
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <div class="card bg-danger text-white">
+            <h3 class="text-center"> Editar </h3>
+            <div class="card-body">
+                <form action="{% url 'editar_alumno' alumno.id %}" method="POST">
+                    {% csrf_token %}
+                    <p>Apellido {{mi_formulario.apellido}}</p>
+                    <p>Nombre: {{mi_formulario.nombre}}</p>
+                    <p>Fecha Nac.: {{mi_formulario.fecha_nac}}</p>
+                    <p>Dni: {{mi_formulario.dni}}</p>
+                    <p>Mail: {{mi_formulario.mail}}</p>
+                    <div class="d-grid gap-2">
+                        <button class="fw-bold btn btn btn-outline-light"
+                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem;
+                        --bs-btn-font-size: .65rem;">Grabar
+                        </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

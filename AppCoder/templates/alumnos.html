@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}<h1 class="text-center"> Alumnos </h1>{% endblock %}
+
+{% load static %}
+
+{% block contenido %}
+
+<main class="container"></main>
+    <div class="d-flex text-danger justify-content-center">
+        <div class="spinner-border" role="status"  id="spinner">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <div class="d-grid gap-2 col-12 mx-auto justify-content-md-end">
+        <div>
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'alta_alumno' %}">
+                <button type="button"
+                        class="fw-bold btn btn btn-outline-success"
+                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem;
+                        --bs-btn-font-size: .65rem;">
+                    Agregar
+                </button>
+            </a>
+            {%endif%}
+            &nbsp;
+            <a href="{% url 'bus_alumno' %}">
+                <button type="button"
+                        class="fw-bold btn btn btn-outline-info"
+                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem;
+                        --bs-btn-font-size: .65rem;">
+                    Buscar
+                </button>
+            </a>
+        </div>
+        &nbsp;
+    </div>
+    {% if alumnos %}
+    <table class="table table-md table-danger table-striped">
+    <div class="table-responsive">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Apellido</th>
+                <th>Nombre</th>
+                <th>Fecha Nac.</th>
+                <th>Dni</th>
+                <th>Mail</th>
+                <th>Accion</th>
+            </tr>
+            <tr>
+        </thead>
+        <body>
+            {% for n in alumnos %}
+            <tr>
+                <td>{{n.id}}</td>
+                <td>{{n.apellido}}</td>
+                <td>{{n.nombre}}</td>
+                <td>{{n.fecha_nac}}</td>
+                <td>{{n.dni}}</td>
+                <td>{{n.mail}}</td>
+                <td>
+                    {% if request.user.is_authenticated %}
+                        <div>
+                            {% if request.user.is_staff %}
+                            <a href="{% url 'editar_alumno' n.id %}">
+                                <button type="button"
+                                            class="btn btn-outline-primary"
+                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem;
+                                --bs-btn-font-size: .75rem;">Editar
+                                    </button>
+                            {%endif%}
+                            {% if request.user.is_superuser %}
+                            <a href="{% url 'eliminar_alumno' n.id %}">
+                                <button type="button"
+                                            class="btn btn-outline-danger btnEliminacion"
+                                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem;
+                                --bs-btn-font-size: .75rem;">Eliminar
+                                    </button>
+                            </a>
+                            {%endif%}
+                        </div>
+                    {%endif%}
+                </td>
+            </tr>
+            {% endfor %}
+        </body>
+        </div>
+    </table>
+    {% else %}
+        <center><h4 class="fs-4 text-warning bg-dark">No hay registros</h4></center>
+    {% endif %}
+</main>
+<script>
+    // Mostrar el spinner cuando la página se está cargando
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById("spinner").style.display = "block";
+    });
+
+    // Ocultar el spinner cuando la página se ha cargado completamente
+    window.addEventListener('load', function() {
+        document.getElementById("spinner").style.display = "none";
+    });
+</script>
+{% endblock %}

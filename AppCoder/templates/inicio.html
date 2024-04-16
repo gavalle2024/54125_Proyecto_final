@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}<h1 class="text-center"> Login </h1>{% endblock %}
+
+{% load static %}
+
+
+{% block contenido %}
+
+    <h2>{{mensaje}}</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12  col-md-4">
+                <div class="card">
+                    
+                    <div class="card-body">
+                        <h5 class="card-title">{{usuario}}</h5>
+                        <p class="card-text">Me gusto mucho el curso</p>
+                        <a class="btn btn-danger" href="">Enviar mensaje</a>
+                        <a href="{% url 'LogOut' %}">
+                            <button class="btn btn-outline-success me-2" type="button">LogOut</button>
+                        </a>
+                        <a href="{% url 'EditarPerfil' %}">
+                            <button class="btn btn-outline-success me-2" type="button">Editar Perfil</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

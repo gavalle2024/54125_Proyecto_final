@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}<h1 class="text-center"> Alumnos </h1>{% endblock %} 
+
+{% load static %}
+
+{% block contenido %}
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <h1 class="text-center"> Buscar </h1>
+        <div class="card bg-danger text-white">
+            <div class="card-body">
+                <form action="buscara" method="GET">
+                    <P>Apellido: <input type="text" name="apellido" id="apellido"></P>
+                    <div class="d-grid gap-2">
+                        <button class="fw-bold btn btn btn-outline-light"
+                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem;
+                        --bs-btn-font-size: .65rem;">Buscar
+                        </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

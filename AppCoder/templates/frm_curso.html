@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}<h1 class="text-center"> Cursos </h1>{% endblock %}
+
+{% load static %}
+
+{% block contenido %}
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h3 class="text-center"> Agregar </h3>
+                <form action="alta_curso"  method="POST">
+                    {% csrf_token %}
+                    <p>Nombre: <input type="text", name="nombre" requerido></p>
+                    <p>Camada: <input type="text", name="camada" requerido></p>
+                    <div class="d-grid gap-2">
+                        <button class="fw-bold btn btn btn-outline-light"
+                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem;
+                        --bs-btn-font-size: .65rem;">Grabar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

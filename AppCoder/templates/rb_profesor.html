@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}<h1 class="text-center"> Profesores </h1>{% endblock %}
+
+{% load static %}
+
+{% block contenido %}
+
+<main class="container"></main>
+    <h1 class="text-center"> Encontrados </h1>
+    <div class="d-grid gap-2 col-12 mx-auto justify-content-md-end">
+        <div>
+            <a href="{% url 'profesores' %}">
+                <button type="button"
+                        class="fw-bold btn btn btn-outline-success"
+                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem;
+                        --bs-btn-font-size: .65rem;">
+                    Todos
+                </button>
+            </a>
+        </div>
+        &nbsp;
+    </div>
+    {% if profesores %}
+    <table class="table table-md table-success table-striped">
+    <div class="table-responsive">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Apellido</th>
+                <th>Nombre</th>
+                <th>Mail</th>
+                <th>Profesion</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <body>
+            {% for n in profesores %}
+            <tr>
+                <td>{{n.id}}</td>
+                <td>{{n.apellido}}</td>
+                <td>{{n.nombre}}</td>
+                <td>{{n.mail}}</td>
+                <td>{{n.profesion}}</td>
+                <td>
+                    <div>
+                        <a href="{% url 'editar_profesor' n.id %}">
+                            <button type="button"
+                                        class="btn btn-outline-primary"
+                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem;
+                            --bs-btn-font-size: .75rem;">Editar
+                                </button>
+                        <a href="{% url 'eliminar_profesor' n.id %}">
+                            <button type="button"
+                                        class="btn btn-outline-danger btnEliminacion"
+                                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem;
+                            --bs-btn-font-size: .75rem;">Eliminar
+                                </button>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </body>
+        </div>
+    </table>
+    {% else %}
+        <center><h4 class="fs-4 text-warning bg-dark">No se encontraron coincidencias</h4></center>
+    {% endif %}
+</main>
+{%endblock%}

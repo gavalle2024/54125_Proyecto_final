@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}<h1 class="text-center"> Bienvenidos a CoderHouse </h1>{% endblock %}
+
+{% load static %}
+
+{% block contenido %}
+
+<div class="container text-center">
+    <div class="row">
+        <h1 class="text-center"> DASHBOARD </h1>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="col-md-12 offset-md-12">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <h1 class="text-center"> Cursos </h1>
+                        <form action=""  method="GET">
+                            {% csrf_token %}
+                            <p>Dictados: {{ c_cursos }}</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="col-md-12 offset-md-12">
+                <div class="card bg-danger text-white">
+                    <div class="card-body">
+                        <h1 class="text-center"> Alumnos </h1>
+                        <form action=""  method="POST">
+                            {% csrf_token %}
+                            <p>Inscriptos: {{ c_alumnos }}</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        &nbsp
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="col-md-12 offset-md-12">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h1 class="text-center"> Profesores </h1>
+                        <form action=""  method="POST">
+                            {% csrf_token %}
+                            <p>Enseñando: {{ c_profesores }}</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="col-md-12 offset-md-12">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <h1 class="text-center"> Entregables </h1>
+                        <form action=""  method="POST">
+                            {% csrf_token %}
+                            <p>Finalizados: {{ c_entregables }}</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+{% endblock %}

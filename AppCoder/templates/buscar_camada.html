@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}<h1 class="text-center"> Inicio </h1>{% endblock %}
+
+{% load static %}
+
+{% block contenido %}
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <div class="card bg-dark text-white">
+            <div class="card-body">
+                <form action="buscarc" method="GET">
+                    <P>Buscar Camada: <input type="text" name="camada" id="camada"></P>
+                    <div class="d-grid gap-2">
+                        <button class="fw-bold btn btn btn-outline-success"
+                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem;
+                        --bs-btn-font-size: .65rem;">Buscar
+                        </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
