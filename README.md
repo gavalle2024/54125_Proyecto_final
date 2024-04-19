@@ -48,7 +48,7 @@ Usuarios con perfil SUPERUSUARIO tendran acceso total:
 
 ## Pruebas Realizadas
 
-Ver archivo titulado "Pruebas Proyecto Python CH.xlsx" el cual se encuentra en el presente repositorio https://github.com/johannesgperez/ProyectoFinalMain.git
+Ver archivo titulado "Pruebas Proyecto Python CH.xlsx" el cual se encuentra en el presente repositorio https://github.com/gavalle2024/54125_Proyecto_final.git 
 
 ## Video Demostración
 
