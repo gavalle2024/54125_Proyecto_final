@@ -10,6 +10,7 @@ urlpatterns = [
     path("login", views.login_request, name="login"),
     path("register", views.register, name="registro"),
     path("editarPerfil", views.editarPerfil, name="EditarPerfil"),
+    path("editarAvatar", views.agregar_avatar, name="EditarAvatar"),
     #path("cambiarContrasenia", views.CambiarContrasenia.as_view(), name="CambiarContrasenia"),
     path("logout", LogoutView.as_view(template_name="logout.html"), name="LogOut"),
     # urls de CURSOS

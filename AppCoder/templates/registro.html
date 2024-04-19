@@ -8,9 +8,10 @@
 
 <div class="row">
     <div class="col-md-4 offset-md-4">
-        <h3 class="text-center"> Nuevo Usuario </h3>
         <div class="card bg-dark text-white">
             <div class="card-body">
+                <h3 class="text-center"> Nuevo Usuario </h3>
+                <img src="{{ MEDIA_URL }}avatares/default.png" alt="" width="0px" height="0px">
                 <form action="" method="POST">
                     {% csrf_token %}
                     {{ form.as_p }}

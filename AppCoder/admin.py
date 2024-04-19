@@ -3,11 +3,12 @@ from .models import *
 
 # Register your models here.
 
+
 @admin.register(Curso)
 class CursoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'camada')
     ordering = ('nombre',)
-    list_editable = ('nombre', 'camada')
+#    list_editable = ('nombre')
     search_fields = ('nombre', 'camada')
     list_filter = ('nombre',)
     list_per_page = 10

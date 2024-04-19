@@ -1,25 +1,22 @@
 from django import forms
 from .models import Avatar
-from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth.forms import UserChangeForm, UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 
 
 class UserEditForm(UserChangeForm):
     #password = None
-    email = forms.EmailField(label='Ingrese su email:')
     password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput)
     password2 = forms.CharField(label="Repita Contraseña", widget=forms.PasswordInput)
     is_staff = True
-    #is_staff = forms.BooleanField(label="Staff status", required=False)
-    #is_superuser = forms.BooleanField(label="Superuser status", required=False)
-    #last_name = forms.CharField(label='Apellido')
-    #first_name= forms.CharField(label='Nombre')
-    
+    # is_staff = forms.BooleanField(label="Staff status", required=False)
+    # is_superuser = forms.BooleanField(label="Staff status", required=False)
+
     class Meta:
         model = User
-        fields = ['email', 'password1', 'password2', 'is_staff']
-        help_text = {k:"" for k in fields}
-        
+        fields = ['last_name', 'first_name', 'email', 'password1', 'password2', 'is_staff']
+        help_text = {k: "" for k in fields}
+
 
 class AvatarForm(forms.ModelForm):
     class Meta:
@@ -28,7 +25,7 @@ class AvatarForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(AvatarForm, self).__init__(*args, **kwargs)
-        self.fields['imagen'].widget.attrs.update({'class': 'form-control-file'})  # Añadir una clase CSS si es necesario
+        self.fields['imagen'].widget.attrs.update()  #({'class': 'form-control-file'})  # Añadir una clase CSS si es necesario
 
 
 class Curso_formulario(forms.Form):
