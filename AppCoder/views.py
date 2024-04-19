@@ -91,6 +91,14 @@ def register(request):
 
 @login_required
 def agregar_avatar(request):
+    cursos = Curso.objects.all()
+    c_cursos = cursos.count()
+    alumnos = Alumno.objects.all()
+    c_alumnos = alumnos.count()
+    profesores = Profesor.objects.all()
+    c_profesores = profesores.count()
+    entregables = Entregable.objects.all()
+    c_entregables = entregables.count()
     # Obtiene el avatar del usuario
     archivo_seleccionado = request.FILES.get('imagen')
     usuario = request.user.id
@@ -101,11 +109,15 @@ def agregar_avatar(request):
             avatar = Avatar.objects.get(user=usuario)
             avatar.imagen = archivo_seleccionado
             avatar.save()
-            form = UserEditForm(request.POST, instance=request.user)
-            perfil_seleccionado = True
+            # form = UserEditForm(request.POST, instance=request.user)
+            dashboard_seleccionado = True
             avatares = Avatar.objects.filter(user=usuario)
-            return render(request, "editar_perfil.html", {"url": avatares[0].imagen.url, "mi_formulario": form,
-                                                        "usuario": usuario, "perfil_seleccionado": perfil_seleccionado})
+            return render(request, "index.html", {"url": avatares[0].imagen.url,
+                        "mensaje": f"Bienvenido/a {usuario}", "usuario": usuario,
+                        "c_cursos": c_cursos, "c_alumnos": c_alumnos, "c_profesores": c_profesores,
+                        "c_entregables": c_entregables, "dashboard_seleccionado": dashboard_seleccionado})
+            #return render(request, "editar_perfil.html", {"url": avatares[0].imagen.url, "mi_formulario": form,
+                                                        #"usuario": usuario, "perfil_seleccionado": perfil_seleccionado})
     else:
         form = AvatarForm()
     perfil_seleccionado = True
@@ -120,25 +132,25 @@ def editarPerfil(request):
     usuario = request.user
     mi_formulario = UserEditForm(request.POST, instance=request.user)
     # Obtener los nombres de los campos del formulario
-    nombres_de_campos = formulario.fields.keys()
-
+    #nombres_de_campos = mi_formulario.fields.keys()
+    #print(nombres_de_campos)
     # Imprimir los nombres de los campos (puedes hacer algo con ellos según tus necesidades)
-    print(nombres_de_campos)
+    #print(nombres_de_campos)
     if request.method == 'POST':
         if mi_formulario.is_valid():
             informacion = mi_formulario.cleaned_data
-            usuario.email = informacion['email']
+            usuario.email = informacion["email"]
             password = informacion['password1']
             usuario.set_password(password)
             usuario.save()
-            return render(request, "inicio.html")
+            #return render(request, "inicio.html")
+            return redirect('EditarPerfil', user_id=request.user.id)
     else:
-        #mi_formulario = UserEditForm(initial={"nombre": usuario. usuario. .nombre, "camada": curso.camada})
-        formulario = UserEditForm(initial={"password1": mi_formulario.password, "is_staff": mi_formulario.is_staff})
+        formulario = UserEditForm(initial={"email": usuario.email})
     perfil_seleccionado = True
     avatares = Avatar.objects.filter(user=request.user.id)
     return render(request, "editar_perfil.html", {"url": avatares[0].imagen.url, "mi_formulario": formulario,
-                                                "usuario": usuario, "perfil_seleccionado": perfil_seleccionado})
+                                                "usuario": request.user.id, "perfil_seleccionado": perfil_seleccionado})
 
 '''
 class CambiarContrasenia(LoginRequiredMixin, PasswordChangeView):
