@@ -45,7 +45,7 @@ def login_request(request):
                 # Verificamos si el usuario es staff
                 #if user.is_staff:
                     # Si ya es staff, procedemos a iniciar sesión
-                login(request, user )
+                login(request, user)
                 avatares = Avatar.objects.filter(user=request.user.id)
                 return render( request, "index.html", {"url": avatares[0].imagen.url,
                             "mensaje": f"Bienvenido/a {usuario}", "usuario": usuario, "c_cursos": c_cursos,
@@ -152,6 +152,8 @@ def editarPerfil(request):
             password = informacion['password1']
             usuario.set_password(password)
             usuario.save()
+            user = authenticate(username=usuario, password=password, staff=True)
+            login(request, user)
             dashboard_seleccionado = True
             avatares = Avatar.objects.filter(user=usuario)
             return render(request, "index.html", {"url": avatares[0].imagen.url,

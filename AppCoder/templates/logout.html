@@ -17,7 +17,16 @@
 <div class="container text-center">
     <h1>Has salido de la sesión</h1>
 </div>
+<body>
+    <center><h6>Redirigiendo automaticamente en 3 segundos...</h6></center>
 
+    <script>
+        setTimeout(function() {
+            // Redirige a la URL especificada después de 5 segundos
+            window.location.href = "{% url 'home' %}";
+        }, 3000);  // El tiempo está en milisegundos (5000 ms = 5 segundos)
+    </script>
+</body>
 <br>
 <br>
 <br>

@@ -11,7 +11,7 @@ class UserEditForm(UserChangeForm):
 
     class Meta:
         model = User
-        fields = ['last_name', 'first_name', 'email', 'password1', 'password2']
+        fields = ['email', 'password1', 'password2']
         help_text = {k: "" for k in fields}
 
 
