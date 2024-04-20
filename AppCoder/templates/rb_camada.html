@@ -39,13 +39,18 @@
                 <td>{{n.nombre}}</td>
                 <td>{{n.camada}}</td>
                 <td>
-                    <div>
+                    {% if request.user.is_authenticated %}
+                        <div>
+                        {% if request.user.is_staff %}
                         <a href="{% url 'editar_curso' n.id %}">
                             <button type="button"
                                         class="btn btn-outline-primary"
                                         style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem;
                             --bs-btn-font-size: .75rem;">Editar
                                 </button>
+                        </a>
+                        {% endif %}
+                        {% if request.user.is_superuser %}
                         <a href="{% url 'eliminar_curso' n.id %}">
                             <button type="button"
                                         class="btn btn-outline-danger btnEliminacion"
@@ -53,7 +58,9 @@
                             --bs-btn-font-size: .75rem;">Eliminar
                                 </button>
                         </a>
-                    </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}

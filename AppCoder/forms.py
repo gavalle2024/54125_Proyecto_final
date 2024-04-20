@@ -1,5 +1,5 @@
 from django import forms
-from .models import Avatar
+from .models import Avatar, Entregable
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 
@@ -8,13 +8,10 @@ class UserEditForm(UserChangeForm):
     email = forms.EmailField(label="Modificar")
     password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput)
     password2 = forms.CharField(label="Repita Contraseña", widget=forms.PasswordInput)
-    #is_staff = True
-    # is_staff = forms.BooleanField(label="Staff status", required=False)
-    # is_superuser = forms.BooleanField(label="Staff status", required=False)
 
     class Meta:
         model = User
-        fields = ['email', 'password1', 'password2']
+        fields = ['last_name', 'first_name', 'email', 'password1', 'password2']
         help_text = {k: "" for k in fields}
 
 
@@ -29,7 +26,7 @@ class AvatarForm(forms.ModelForm):
 
 
 class Curso_formulario(forms.Form):
-    nombre = forms.CharField(max_length=30)
+    nombre = forms.CharField(max_length=200)
     camada = forms.IntegerField()
 
 
@@ -49,6 +46,12 @@ class Profesor_formulario(forms.Form):
 
 
 class Entregable_formulario(forms.Form):
-    nombre = forms.CharField(max_length=30)
+    nombre = forms.CharField(max_length=200)
     fecha_entrega = forms.DateField()
-    entregado = forms.BooleanField()
+    entregado = forms.BooleanField(required=False)
+
+    class Meta:
+        model = Entregable
+        fields = ['nombre', 'fecha_entrega', 'entregado']
+        # Asegura que 'entregado' no sea requerido
+        field_classes = {'entregado': forms.BooleanField(required=False)}

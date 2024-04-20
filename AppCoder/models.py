@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Curso(models.Model):
-    nombre = models.CharField(max_length=40)
+    nombre = models.CharField(max_length=200)
     camada = models.IntegerField()
 
     def __str__(self):
@@ -34,9 +34,9 @@ class Profesor(models.Model):
 
 
 class Entregable(models.Model):
-    nombre = models.CharField(max_length=40)
+    nombre = models.CharField(max_length=200)
     fecha_entrega = models.DateField()
-    entregado = models.BooleanField()
+    entregado = models.BooleanField(null=True)
 
     def __str__(self):
         return f"Nombre: {self.nombre} Fecha Entrega: {self.fecha_entrega} Entregado: {self.entregado}"

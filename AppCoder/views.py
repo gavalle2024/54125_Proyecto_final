@@ -63,7 +63,8 @@ def login_request(request):
             else:
                 return HttpResponse(f"Usuario no encontrado")
         else:
-            return HttpResponse(f"FORM INCORRECTO {form}")
+            form = AuthenticationForm()
+            return render(request, "login.html", {"form": form})
     form = AuthenticationForm()
     return render(request, "login.html", {"form": form})
 
@@ -129,6 +130,14 @@ def agregar_avatar(request):
 #@login_request  # <-- DECORADORES
 def editarPerfil(request):
     global formulario
+    cursos = Curso.objects.all()
+    c_cursos = cursos.count()
+    alumnos = Alumno.objects.all()
+    c_alumnos = alumnos.count()
+    profesores = Profesor.objects.all()
+    c_profesores = profesores.count()
+    entregables = Entregable.objects.all()
+    c_entregables = entregables.count()
     usuario = request.user
     mi_formulario = UserEditForm(request.POST, instance=request.user)
     # Obtener los nombres de los campos del formulario
@@ -143,8 +152,12 @@ def editarPerfil(request):
             password = informacion['password1']
             usuario.set_password(password)
             usuario.save()
-            #return render(request, "inicio.html")
-            return redirect('EditarPerfil', user_id=request.user.id)
+            dashboard_seleccionado = True
+            avatares = Avatar.objects.filter(user=usuario)
+            return render(request, "index.html", {"url": avatares[0].imagen.url,
+                        "mensaje": f"Bienvenido/a {usuario}", "usuario": usuario,
+                        "c_cursos": c_cursos, "c_alumnos": c_alumnos, "c_profesores": c_profesores,
+                        "c_entregables": c_entregables, "dashboard_seleccionado": dashboard_seleccionado})
     else:
         formulario = UserEditForm(initial={"email": usuario.email})
     perfil_seleccionado = True
@@ -204,10 +217,12 @@ def dashboard(request):
     c_entregables = entregables.count()        
     user = request.user.id
     if user is not None:
+        dashboard_seleccionado = True
         avatares = Avatar.objects.filter(user=request.user.id)
         return render(request , "index.html", {"url": avatares[0].imagen.url, "c_cursos": c_cursos,
-                                "c_alumnos": c_alumnos, "c_profesores": c_profesores, "c_entregables": c_entregables})
-    return render( request, "index.html", {"c_cursos": c_cursos, "c_alumnos": c_alumnos, "c_profesores": c_profesores,
+                                "c_alumnos": c_alumnos, "c_profesores": c_profesores, "c_entregables": c_entregables,
+                                                    "dashboard_seleccionado": dashboard_seleccionado})
+    return render(request, "index.html", {"c_cursos": c_cursos, "c_alumnos": c_alumnos, "c_profesores": c_profesores,
                                         "c_entregables": c_entregables})
     
 
@@ -521,14 +536,18 @@ def editar_entregable(request, id):
     if request.method == "POST":
         mi_formulario = Entregable_formulario(request.POST)
         if mi_formulario.is_valid():
+            print('valid true')
             datos = mi_formulario.cleaned_data
             entregable.nombre = datos["nombre"]
             entregable.fecha_entrega = datos["fecha_entrega"]
             entregable.entregado = datos["entregado"]
+            print(entregable.entregado)
             entregable.save()
             entregables = Entregable.objects.all()
             return render(request, "entregables.html", {"url": avatares[0].imagen.url, "entregables": entregables,
                                                         "entregable_seleccionado": entregable_seleccionado})
+        else:
+            print(mi_formulario.errors)
     else:
         mi_formulario = Entregable_formulario(initial={"nombre": entregable.nombre,
                                     "fecha_entrega": entregable.fecha_entrega, "entregado": entregable.entregado})
