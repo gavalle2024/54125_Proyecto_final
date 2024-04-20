@@ -22,44 +22,15 @@ from django.conf import settings
 
 
 def login_request(request):
-    cursos = Curso.objects.all()
-    c_cursos = cursos.count()        
-    alumnos = Alumno.objects.all()
-    c_alumnos = alumnos.count()        
-    profesores = Profesor.objects.all()
-    c_profesores = profesores.count()        
-    entregables = Entregable.objects.all()
-    c_entregables = entregables.count()        
-
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
-
         if form.is_valid():
-
             usuario = form.cleaned_data.get("username")
             contra = form.cleaned_data.get("password")
-
             user = authenticate(username=usuario, password=contra, staff=True)
-
             if user is not None:
-                # Verificamos si el usuario es staff
-                #if user.is_staff:
-                    # Si ya es staff, procedemos a iniciar sesión
                 login(request, user)
-                avatares = Avatar.objects.filter(user=request.user.id)
-                return render( request, "index.html", {"url": avatares[0].imagen.url,
-                            "mensaje": f"Bienvenido/a {usuario}", "usuario": usuario, "c_cursos": c_cursos,
-                            "c_alumnos": c_alumnos, "c_profesores": c_profesores, "c_entregables": c_entregables})
-                #else:
-                    # Si no es staff, podemos asignarle el estado de staff aquí
-                #    user.is_staff = True
-                #    user.save()
-                    # Y luego iniciamos sesión
-                #    login(request, user)
-                #    avatares = Avatar.objects.filter(user=request.user.id)
-                #    return render(request, "index.html", {"url": avatares[0].imagen.url,
-                #            "mensaje": f"Bienvenido/a {usuario}", "usuario": usuario, "c_cursos": c_cursos,
-                #            "c_alumnos": c_alumnos, "c_profesores": c_profesores, "c_entregables": c_entregables})
+                return redirect('dashboard')
             else:
                 return HttpResponse(f"Usuario no encontrado")
         else:
@@ -76,14 +47,20 @@ def register(request):
         # Guardo imagen por default que esta oculto en el registro.html
         avatar_form = AvatarForm(request.POST, request.FILES)
         if form.is_valid() and avatar_form.is_valid():
+            # Guarda el usuario
             user = form.save()
+            # Obtengo el nombre de usuario del formulario
+            usuario = form.cleaned_data['username']
             # Crear una instancia de Avatar asociada con el usuario
             avatar = Avatar(user=user, imagen=avatar_form.cleaned_data['imagen'])
             avatar.save()
             # Asigno roll de staff
             user.is_staff = True
             form.save()
-            return redirect('login')
+            # login usuario
+            user = authenticate(username=usuario, password=form.cleaned_data['password1'], staff=True)
+            login(request, user)
+            return redirect('dashboard')
     else:
         form = UserCreationForm()
         avatar_form = AvatarForm()
@@ -92,14 +69,6 @@ def register(request):
 
 @login_required
 def agregar_avatar(request):
-    cursos = Curso.objects.all()
-    c_cursos = cursos.count()
-    alumnos = Alumno.objects.all()
-    c_alumnos = alumnos.count()
-    profesores = Profesor.objects.all()
-    c_profesores = profesores.count()
-    entregables = Entregable.objects.all()
-    c_entregables = entregables.count()
     # Obtiene el avatar del usuario
     archivo_seleccionado = request.FILES.get('imagen')
     usuario = request.user.id
@@ -110,15 +79,7 @@ def agregar_avatar(request):
             avatar = Avatar.objects.get(user=usuario)
             avatar.imagen = archivo_seleccionado
             avatar.save()
-            # form = UserEditForm(request.POST, instance=request.user)
-            dashboard_seleccionado = True
-            avatares = Avatar.objects.filter(user=usuario)
-            return render(request, "index.html", {"url": avatares[0].imagen.url,
-                        "mensaje": f"Bienvenido/a {usuario}", "usuario": usuario,
-                        "c_cursos": c_cursos, "c_alumnos": c_alumnos, "c_profesores": c_profesores,
-                        "c_entregables": c_entregables, "dashboard_seleccionado": dashboard_seleccionado})
-            #return render(request, "editar_perfil.html", {"url": avatares[0].imagen.url, "mi_formulario": form,
-                                                        #"usuario": usuario, "perfil_seleccionado": perfil_seleccionado})
+            return redirect('EditarPerfil')
     else:
         form = AvatarForm()
     perfil_seleccionado = True
@@ -130,21 +91,8 @@ def agregar_avatar(request):
 #@login_request  # <-- DECORADORES
 def editarPerfil(request):
     global formulario
-    cursos = Curso.objects.all()
-    c_cursos = cursos.count()
-    alumnos = Alumno.objects.all()
-    c_alumnos = alumnos.count()
-    profesores = Profesor.objects.all()
-    c_profesores = profesores.count()
-    entregables = Entregable.objects.all()
-    c_entregables = entregables.count()
     usuario = request.user
     mi_formulario = UserEditForm(request.POST, instance=request.user)
-    # Obtener los nombres de los campos del formulario
-    #nombres_de_campos = mi_formulario.fields.keys()
-    #print(nombres_de_campos)
-    # Imprimir los nombres de los campos (puedes hacer algo con ellos según tus necesidades)
-    #print(nombres_de_campos)
     if request.method == 'POST':
         if mi_formulario.is_valid():
             informacion = mi_formulario.cleaned_data
@@ -154,12 +102,7 @@ def editarPerfil(request):
             usuario.save()
             user = authenticate(username=usuario, password=password, staff=True)
             login(request, user)
-            dashboard_seleccionado = True
-            avatares = Avatar.objects.filter(user=usuario)
-            return render(request, "index.html", {"url": avatares[0].imagen.url,
-                        "mensaje": f"Bienvenido/a {usuario}", "usuario": usuario,
-                        "c_cursos": c_cursos, "c_alumnos": c_alumnos, "c_profesores": c_profesores,
-                        "c_entregables": c_entregables, "dashboard_seleccionado": dashboard_seleccionado})
+            return redirect('dashboard')
     else:
         formulario = UserEditForm(initial={"email": usuario.email})
     perfil_seleccionado = True
