@@ -65,16 +65,3 @@ Los usuarios pueden realizar las siguientes accciones:
 - Python 3.8
 - Django 4.2.11
 
-## Pruebas Realizadas
-
-Ver archivo titulado "Pruebas Proyecto Python CH.xlsx" el cual se encuentra en el presente 
-repositorio https://github.com/gavalle2024/54125_Proyecto_final.git 
-
-
-
-
-
-
-
-
-
