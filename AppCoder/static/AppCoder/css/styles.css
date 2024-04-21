@@ -10894,6 +10894,23 @@ header.masthead h1, header.masthead .h1 {
   box-shadow: 0px 5px 5px 0px #adb5bd;
 }
 
+.scroll-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 1000;
+}
+.scroll-to-top:hover {
+    background-color: #0056b3;
+}
+
 .call-to-action {
   position: relative;
   background-color: #343a40;

@@ -128,7 +128,7 @@
 
         <!-- FIN MI CONTENIDO-->
         <!-- Footer-->
-        <footer class="footer bg-light">
+        <footer class="footer bg-light position-relative">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 h-100 text-center text-lg-start my-auto">
@@ -157,7 +157,11 @@
                         </ul>
                     </div>
                 </div>
+            <a href="" id="scrollToTopBtn" class="scroll-to-top" onclick="scrollToTop()">
+                <i class="bi bi-arrow-up-circle h4"></i>
+            </a>
             </div>
+
         </footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -168,5 +172,25 @@
         <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        <script>
+            // Función para desplazarse al principio de la página
+            function scrollToTop() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // Obtén el botón por su ID
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+            // Maneja el evento de desplazamiento de la página
+            window.addEventListener('scroll', function() {
+                // Muestra el botón si el usuario se ha desplazado más de 100 píxeles
+                if (window.scrollY > 100) {
+                    scrollToTopBtn.style.display = 'block';
+                } else {
+                    // Oculta el botón si el usuario está cerca de la parte superior
+                    scrollToTopBtn.style.display = 'none';
+                }
+            });
+        </script>
     </body>
 </html>
